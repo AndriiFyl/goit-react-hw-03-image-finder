@@ -15,7 +15,7 @@ const ImageGalleryItem = ({
         className={css.ImageGalleryItem}
     >
         <img
-            className={css.ImageGalleryItem_image}
+            className={css.ImageGalleryItem__image}
             src={webformatURL}
             alt={tags}
         />
