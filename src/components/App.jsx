@@ -1,28 +1,28 @@
-import React from "react";
-import Searchbar from "./Searchbar";
-import css from "./App.module.css";
+import React from 'react';
+import css from './App.module.css';
+import { ToastContainer } from 'react-toastify';
+import Searchbar from './Searchbar';
+import ImageGallery from './ImageGallery';
 
 export default class App extends React.Component {
-  
-  state = {
-    searchName: '',
-  }
+    state = {
+        searchName: '',
+    };
 
-// метод handleSubmitForm  при сабмите формы, в который мы будем прокидывать из Searchbar то, что мы введем
-// в инпут. И как следстивие, получим инфо из инпута в App, которую потом можем прокинуть в 
-// ImageGalleryItem для HTTP-запроса
-  handleSubmitForm = searchName => {
-    console.log(searchName);
-    this.setState({ searchName });
-  }
+    // метод handleSubmitForm при сабміті форми, в який ми прокидуємо із Searchbar те, що введемо в інпу.
+    // А потім цю інфу зможемо прокинути в ImageGallery щоб зробити запит з API
+    handleSubmitForm = searchName => {
+        this.setState({ searchName });
+    };
 
-  render() {
-    return (
-      < div className={css.App} >
-        
-        <Searchbar onSubmitProp={this.handleSubmitForm} />
-      </div >
-)}
-
+    render() {
+        return (
+            <div className={css.App}>
+                <Searchbar onSubmitProp={this.handleSubmitForm} />
+                {/* передаємо значення зі стейту в ImageGallery як пропс (щоб вже там зробити запит на сервер) */}
+                <ImageGallery searchName={this.state.searchName} />
+                <ToastContainer autoClose={2500} />
+            </div>
+        );
+    }
 }
-

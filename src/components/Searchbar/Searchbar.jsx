@@ -1,62 +1,60 @@
-import React from "react";
-import css from "./Searchbar.module.css";
-import { BiSearch } from "react-icons/bi";
-
+import React from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import css from './Searchbar.module.css';
+import { BiSearch } from 'react-icons/bi';
 
 export default class Searchbar extends React.Component {
     state = {
         searchName: '',
-    }
-
-    // метод, который при вводе в инпут записывает текст в state
+    };
+    // метод, який при введенні в інпут інформації заипусує її в state
     handleNameChange = event => {
         this.setState({ searchName: event.currentTarget.value.toLowerCase() });
-    }
+    };
 
-
+    // метод відправки форми
     handleSubmitForm = event => {
+        // при відправці форми відміняємо перезавантаження сторінки
         event.preventDefault();
 
+        // умова, при якій при спробі відправити пусту форму побачимо підказку
         if (this.state.searchName.trim() === '') {
-            alert('Please write your request')
-            return
+            return toast.error('Please write your request');
         }
-        
-        // передаем в App значение из state
+
+        // передаємо в App значення із state
         this.props.onSubmitProp(this.state.searchName);
 
-        // после отправки формы очищаем поле ввода
+        // після відправки форми очищаємо поле вводу
         this.setState({ searchName: '' });
-    }
+    };
 
     render() {
+        const { handleSubmitForm, handleNameChange } = this;
+        const { searchName } = this.state;
         return (
             <header className={css.Searchbar}>
-  <form className={css.SearchForm} onSubmit = {this.handleSubmitForm}>
-        <button
-            ype="submit"
-             className={css.SearchForm__button}>
-            <span className={css.SearchForm__button__label}>
-            Search</span>
-            <BiSearch size={20}/>
-               
-    </button>
+                <form className={css.SearchForm} onSubmit={handleSubmitForm}>
+                    <button type="submit" className={css.SearchForm__button}>
+                        <span className={css.SearchForm__button__label}>
+                            Search
+                        </span>
+                        <BiSearch size={20} />
+                    </button>
 
-    <input
-        className={css.SearchForm__input}
-        name="searchImg"
-        value={this.state.searchName}
-        onChange={this.handleNameChange}
-                        
-      type="text"
-      autoComplete="off"
-      autoFocus
-      placeholder="Search images and photos"
-    />
-  </form>
-</header>
-        )
+                    <input
+                        className={css.SearchForm__input}
+                        name="searchImg"
+                        value={searchName}
+                        onChange={handleNameChange}
+                        type="text"
+                        autoComplete="off"
+                        autoFocus
+                        placeholder="Search images and photos"
+                    />
+                </form>
+            </header>
+        );
     }
-
 }
-
